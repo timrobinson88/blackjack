@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="header">
+    <h1>You are now in game <%= @game.id %></h1>
+  </div>
+  <div class="hand">
+    <div class="player-name">
+      <h2>Dealer Hand</h2>
+    </div>
+    <div class="player-cards">
+      <% @game.dealer_hand.each do |value| %>
+        <div class="card">
+          <div class="card-value">
+            <%= value %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="hand">
+    <div class="player-name">
+      <h2>Player Hand</h2>
+    </div>
+    <div class="player-cards">
+      <% @game.player_hand.each do |value| %>
+        <div class="card">
+          <div class="card-value">
+            <%= value %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="options">
+    <button type="button">Hit!</button>
+    <button type="button">Stand</button>
+  </div>
+
+</div>
+
