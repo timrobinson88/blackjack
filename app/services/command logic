@@ -1,0 +1,113 @@
+require 'pp'
+class Game
+  BUST_SCORE = 21
+
+  attr_accessor :deck, :dealer_hand, :player_hand
+  def initialize
+    self.deck = []
+    self.dealer_hand = []
+    self.player_hand = []
+    
+    values = *(1..11)
+    4.times do
+      values.each do |value|
+        deck << value 
+      end
+    end
+
+    player_hand
+    dealer_hand
+
+    deck
+
+  end
+
+  def start
+    deck.shuffle!
+    2.times { dealer_hand << deck.shift }
+    2.times { player_hand << deck.shift }
+    pp dealer_hand
+    pp player_hand
+    pp dealer_total
+    pp "your total is #{player_total}"
+  end
+
+  def player_total
+    player_hand.reduce(:+)
+  end
+
+  def dealer_total
+    dealer_hand.reduce(:+)
+  end
+
+  def player_bust?
+    player_total > BUST_SCORE
+  end
+
+  def dealer_bust?
+    dealer_total > BUST_SCORE
+  end
+
+  def dealer_should_stand?
+    dealer_total >= 17
+  end
+
+  def to_s
+
+  end
+
+  def play
+    input = ""
+    until input == "stand" || player_bust?
+      puts "Would you like to stand or hit"
+      input = gets.chomp
+
+      if input == "hit"
+        player_hand << deck.shift
+        pp "your hand is #{player_hand}"
+        puts "your total is #{player_total}"
+      elsif input == "stand"
+        puts "dealer to draw"
+      else
+        puts "invalid input"
+      end
+    end
+    
+    if player_bust?
+      puts "You have gone bust"
+    else
+      until dealer_should_stand?
+        dealer_hand << deck.shift
+        pp "dealer hand #{dealer_hand}"
+        pp "dealer total is #{dealer_total}"
+      end
+      if dealer_bust?
+        puts "dealer has busted you win"
+      elsif dealer_total == player_total
+        puts "tied hand"
+      elsif dealer_total > player_total
+        puts "You lose"
+      else
+        puts "You Win!! you got #{player_total} dealer got #{dealer_total}"
+      end
+    end
+  end
+end
+
+game = Game.new
+game.start
+game.play
+
+
+
+
+
+
+
+
+
+		
+
+
+
+
